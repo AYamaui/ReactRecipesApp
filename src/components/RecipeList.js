@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import AddRecipeModal from "./AddRecipeModal";
 import SearchInput from "./SearchInput";
+import styled, { css } from 'styled-components'
+
+const Button = styled.button`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid #28A745;
+  color: #28A745;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+`;
 
 
 const RecipeList = () => {
@@ -134,9 +144,9 @@ const RecipeList = () => {
         <div className="col-md-10 col-sm-10 mx-auto p-0">
           <div className="card p-3">
             <div className="">
-              <button color="success" className="btn btn-primary" onClick={openAddRecipeModal}>
+              <Button onClick={openAddRecipeModal}>
                 Add Recipe
-              </button>
+              </Button>
             </div>
             <ul className="list-group list-group-flush">
               { listItems }
