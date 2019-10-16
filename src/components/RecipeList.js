@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import AddRecipeModal from "./AddRecipeModal";
+import SearchInput from "./SearchInput";
 
 
 const RecipeList = () => {
@@ -92,6 +93,30 @@ const RecipeList = () => {
     setRecipeList(recipes);
   };
 
+  const handleSearch = (searchText) => {
+    fetch(`/recipes/?name=${searchText}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(
+      (response) => {
+        if (response.status === 200) {
+          return response.json()
+        }
+        else {
+          console.log("An error ocurred: Check your form for errors");
+        }
+      }
+    )
+    .then((response) => {
+        setRecipeList(response.results);
+      }
+    )
+  };
+
   return (
     <main className="content">
       <AddRecipeModal
@@ -102,8 +127,11 @@ const RecipeList = () => {
 
       />
       <h1 className="text-white text-uppercase text-center my-4">Recipes app</h1>
+      <SearchInput
+        handleSearch={handleSearch}
+      />
       <div className="row ">
-        <div className="col-md-6 col-sm-10 mx-auto p-0">
+        <div className="col-md-10 col-sm-10 mx-auto p-0">
           <div className="card p-3">
             <div className="">
               <button color="success" className="btn btn-primary" onClick={openAddRecipeModal}>
