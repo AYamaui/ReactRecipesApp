@@ -1,5 +1,4 @@
-import React, {Component, useState} from "react";
-import AddRecipeModal from "./components/AddRecipeModal";
+import React from "react";
 import RecipeList from "./components/RecipeList";
 
 const App = () => {

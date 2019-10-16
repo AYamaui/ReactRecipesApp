@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import AddRecipeModal from "./AddRecipeModal";
+import EditRecipeModal from "./EditRecipeModal";
 
 
 const RecipeList = () => {
@@ -18,6 +19,33 @@ const RecipeList = () => {
   useEffect(() => {
     fetchRecipes()
   }, []);
+
+  const openAddRecipeModal = () => {
+    setShowAddRecipeModal(true);
+  };
+
+  const closeAddRecipeModal = () => {
+    setShowAddRecipeModal(false);
+  };
+
+  const handleDelete = (recipeId) => {
+    fetch(`/recipes/${recipeId}`, {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(
+      (response) => {
+        if (response.status === 204) {
+          return response.json()
+        } else {
+          console.log("An error ocurred: Check your form for errors");
+        }
+      }
+    )
+  };
 
   const listItems = recipeList.map((recipe) => {
     return (
@@ -38,14 +66,7 @@ const RecipeList = () => {
 
         < span >
           < button
-            onClick = { () => this.editItem(recipe) }
-            className = "btn btn-secondary mr-2"
-          >
-            Edit
-          < /button>
-
-          < button
-            onClick = { () => this.handleDelete(recipe) }
+            onClick = { () => handleDelete(recipe.id) }
             className = "btn btn-danger"
           >
             Delete
@@ -55,17 +76,16 @@ const RecipeList = () => {
     )
   });
 
-  const openAddRecipeModal = () => {
-    setShowAddRecipeModal(true);
-  };
+  const refreshRecipeList = (recipe, action = "create") => {
+    let recipes = recipeList.slice();
 
-  const closeAddRecipeModal = () => {
-    setShowAddRecipeModal(false);
-  };
-
-  const refreshList = (recipe) => {
-    console.log(recipe);
-    const recipes = recipeList.slice().concat(recipe);
+    if (action === "create") {
+      recipes = recipes.concat(recipe);
+    } else if (action === "update") {
+      console.log(recipe);
+    } else {
+      delete recipes[recipe];
+    }
     setRecipeList( recipes );
   };
 
@@ -74,7 +94,8 @@ const RecipeList = () => {
       <AddRecipeModal
         isOpen={showAddRecipeModal}
         closeModal={closeAddRecipeModal}
-        refreshList={refreshList}
+        refreshRecipeList={refreshRecipeList}
+        closeAddRecipeModal={closeAddRecipeModal}
 
       />
       <h1 className="text-white text-uppercase text-center my-4">Recipes app</h1>
@@ -82,7 +103,7 @@ const RecipeList = () => {
         <div className="col-md-6 col-sm-10 mx-auto p-0">
           <div className="card p-3">
             <div className="">
-              <button className="btn btn-primary" onClick={openAddRecipeModal}>
+              <button color="success" className="btn btn-primary" onClick={openAddRecipeModal}>
                 Add Recipe
               </button>
             </div>

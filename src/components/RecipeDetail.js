@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
-import RecipeList from "./RecipeList";
+import EditRecipeModal from "./EditRecipeModal";
 
 
 const RecipeDetail = (props) => {
 
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showEditRecipeModal, setShowEditRecipeModal] = useState(false);
 
   async function fetchRecipe() {
     let response = await fetch(`/recipes/${props.match.params.id}`);
@@ -25,10 +26,10 @@ const RecipeDetail = (props) => {
       )
   } else {
 
-    const renderIngredients = recipe.ingredients.map((ingredient) => {
+    const renderIngredients = recipe.ingredients.map((ingredient, idx) => {
       return (
         <li
-          key={ ingredient.id }
+          key={ `ingredient${idx}` }
           className = "list-group-item d-flex justify-content-between align-items-center"
         >
           < span
@@ -37,32 +38,39 @@ const RecipeDetail = (props) => {
           >
             { ingredient.name }
           < /span>
-
-          < span >
-            < button
-              onClick = { () => this.editItem(ingredient) }
-              className = "btn btn-secondary mr-2"
-            >
-              Edit
-            < /button>
-
-            < button
-              onClick = { () => this.handleDelete(ingredient) }
-              className = "btn btn-danger"
-            >
-              Delete
-            < /button>
-          < /span>
         </li>
       )
     });
 
+    const openEditRecipeModal = () => {
+      setShowEditRecipeModal(true);
+    };
+
+    const closeEditRecipeModal = () => {
+      setShowEditRecipeModal(false);
+    };
+
+    const refreshIngredientsList = (recipe) => {
+      setRecipe(recipe);
+    };
+
     return (
       <main className="content">
+        <EditRecipeModal
+          isOpen={showEditRecipeModal}
+          recipe = {recipe}
+          closeModal={closeEditRecipeModal}
+          refreshIngredientsList={refreshIngredientsList}
+        />
         <h1 className="text-white text-uppercase text-center my-4">Recipes app</h1>
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
+              <div className="">
+                <button color="success" className="btn btn-primary" onClick={openEditRecipeModal}>
+                  Edit
+                </button>
+              </div>
               <h2 className="text-uppercase text-center my-4">{ recipe.name }</h2>
               <p className="text-center">{ recipe.description }</p>
                 <ul className="list-group list-group-flush">

@@ -6,7 +6,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import RecipeDetail from "./components/RecipeDetail";
-import RecipeList from "./components/RecipeList";
 
 const AppWrapper = () => (
   <Router>
