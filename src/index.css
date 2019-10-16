@@ -29,3 +29,7 @@ body {
   background-color: #282c34;
   color: #ffffff;
 }
+
+.right {
+  float: right;
+}

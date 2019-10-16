@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import AddRecipeModal from "./AddRecipeModal";
-import EditRecipeModal from "./EditRecipeModal";
 
 
 const RecipeList = () => {
@@ -39,7 +38,8 @@ const RecipeList = () => {
     .then(
       (response) => {
         if (response.status === 204) {
-          return response.json()
+          console.log("Recipe deleted successfully");
+          refreshRecipeListOnRemove(recipeId);
         } else {
           console.log("An error ocurred: Check your form for errors");
         }
@@ -62,7 +62,7 @@ const RecipeList = () => {
             className="title">
               { recipe.name }
           </Link>
-        < /span>
+        </span>
 
         < span >
           < button
@@ -70,23 +70,26 @@ const RecipeList = () => {
             className = "btn btn-danger"
           >
             Delete
-          < /button>
-        < /span>
+          </button>
+        </span>
       </li>
     )
   });
 
-  const refreshRecipeList = (recipe, action = "create") => {
+  const refreshRecipeList = (recipe) => {
+    let recipes = recipeList.slice();
+    recipes = recipes.concat(recipe);
+    setRecipeList( recipes );
+  };
+
+  const refreshRecipeListOnRemove= (recipeId) => {
     let recipes = recipeList.slice();
 
-    if (action === "create") {
-      recipes = recipes.concat(recipe);
-    } else if (action === "update") {
-      console.log(recipe);
-    } else {
-      delete recipes[recipe];
-    }
-    setRecipeList( recipes );
+    recipes = recipes.filter( (recipe) => {
+      return recipe.id !== recipeId;
+    });
+
+    setRecipeList(recipes);
   };
 
   return (

@@ -14,7 +14,7 @@ const AppWrapper = () => (
       <Route exact path="/" component={ App } />
     </Switch>
   </Router>
-)
+);
 
 ReactDOM.render(<AppWrapper />, document.getElementById('root'));
 

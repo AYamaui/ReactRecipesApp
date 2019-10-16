@@ -93,19 +93,15 @@ const RecipeForm = (props) => {
                                   )
                                 })
                               }
-                              <div left>
-                                <div className="form-divider">
-                                  <button  type="button" onClick={() => arrayHelpers.push("")} > Add Another </button>
-                                </div>
+                              <div className="form-divider">
+                                <button  type="button" onClick={() => arrayHelpers.push("")} > Add Another </button>
                               </div>
                             </React.Fragment>
                             )
                             :
                             (
-                              <div left>
-                                <div className="form-divider">
-                                  <button  type="button" onClick={() => arrayHelpers.push("")}> Add Ingredients </button>
-                                </div>
+                              <div className="form-divider">
+                                <button  type="button" onClick={() => arrayHelpers.push("")}> Add Ingredients </button>
                               </div>
                             )
                           }
@@ -128,6 +124,6 @@ const RecipeForm = (props) => {
       }
     </Formik>
   )
-}
+};
 
 export default RecipeForm;

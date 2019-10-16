@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import EditRecipeModal from "./EditRecipeModal";
+import Button from 'react-bootstrap/Button'
+import {Link} from "react-router-dom";
 
 
 const RecipeDetail = (props) => {
@@ -37,7 +39,7 @@ const RecipeDetail = (props) => {
             title = { ingredient.name }
           >
             { ingredient.name }
-          < /span>
+          </span>
         </li>
       )
     });
@@ -66,10 +68,17 @@ const RecipeDetail = (props) => {
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
-              <div className="">
-                <button color="success" className="btn btn-primary" onClick={openEditRecipeModal}>
-                  Edit
-                </button>
+              <div className="row">
+                <Link to={`/`}>
+                    <Button color="primary">
+                        Go Back
+                   </Button>
+                </Link>
+                <div className="pull-right right">
+                  <Button color="success" className="btn btn-success right" onClick={openEditRecipeModal}>
+                    Edit
+                  </Button>
+                </div>
               </div>
               <h2 className="text-uppercase text-center my-4">{ recipe.name }</h2>
               <p className="text-center">{ recipe.description }</p>
