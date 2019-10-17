@@ -42,7 +42,7 @@ const RecipeForm = (props) => {
     >
       {
         ( {values, isSubmitting, handleChange, setFieldValue} ) => (
-          <Form id="recipe-form">
+          <Form id="recipeForm">
             <ModalBody>
               <div className="form-divider">
                 <span className="form-lbl"> Name: </span>

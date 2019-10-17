@@ -21,6 +21,18 @@ const RecipeDetail = (props) => {
     fetchRecipe()
   }, []);
 
+  const openEditRecipeModal = () => {
+    setShowEditRecipeModal(true);
+  };
+
+  const closeEditRecipeModal = () => {
+    setShowEditRecipeModal(false);
+  };
+
+  const refreshIngredientsList = (recipe) => {
+    setRecipe(recipe);
+  };
+
 
   if (loading) {
       return (
@@ -43,18 +55,6 @@ const RecipeDetail = (props) => {
         </li>
       )
     });
-
-    const openEditRecipeModal = () => {
-      setShowEditRecipeModal(true);
-    };
-
-    const closeEditRecipeModal = () => {
-      setShowEditRecipeModal(false);
-    };
-
-    const refreshIngredientsList = (recipe) => {
-      setRecipe(recipe);
-    };
 
     return (
       <main className="content">

@@ -16,7 +16,7 @@ const Button = styled.button`
 
 const RecipeList = () => {
 
-  const [recipeList, setRecipeList] = useState([]);
+  const [recipeList, setRecipeList] = useState(null);
   const [showAddRecipeModal, setShowAddRecipeModal] = useState(false);
 
   async function fetchRecipes() {
@@ -27,7 +27,7 @@ const RecipeList = () => {
   }
 
   useEffect(() => {
-    fetchRecipes()
+    fetchRecipes();
   }, []);
 
   const openAddRecipeModal = () => {
@@ -50,42 +50,17 @@ const RecipeList = () => {
       (response) => {
         if (response.status === 204) {
           console.log("Recipe deleted successfully");
-          refreshRecipeListOnRemove(recipeId);
         } else {
           console.log("An error ocurred: Check your form for errors");
         }
       }
     )
-  };
-
-  const listItems = recipeList.map((recipe) => {
-    return (
-      <li
-        key={ recipe.id }
-        className = "list-group-item d-flex justify-content-between align-items-center"
-      >
-        < span
-          className = {`recipe-title mr-2 completed-recipe`}
-          title = { recipe.name }
-        >
-          <Link
-            to={`/detail/${recipe.id}`}
-            className="title">
-              { recipe.name }
-          </Link>
-        </span>
-
-        < span >
-          < button
-            onClick = { () => handleDelete(recipe.id) }
-            className = "btn btn-danger"
-          >
-            Delete
-          </button>
-        </span>
-      </li>
+    .then(
+      () => {
+        refreshRecipeListOnRemove(recipeId);
+      }
     )
-  });
+  };
 
   const refreshRecipeList = (recipe) => {
     let recipes = recipeList.slice();
@@ -127,11 +102,43 @@ const RecipeList = () => {
     )
   };
 
+  if (!recipeList) {
+    return (<div>Loading...</div>);
+  }
+
+  const listItems = recipeList.map((recipe) => {
+    return (
+      <li
+        key={ recipe.id }
+        className = "list-group-item d-flex justify-content-between align-items-center"
+      >
+        < span
+          className = {`recipe-title mr-2 completed-recipe`}
+          title = { recipe.name }
+        >
+          <Link
+            to={`/detail/${recipe.id}`}
+            className="title">
+              { recipe.name }
+          </Link>
+        </span>
+
+        < span >
+          < button
+            onClick = { () => handleDelete(recipe.id) }
+            className = "btn btn-danger delete-btn"
+          >
+            Delete
+          </button>
+        </span>
+      </li>
+    )
+  });
+
   return (
     <main className="content">
       <AddRecipeModal
         isOpen={showAddRecipeModal}
-        closeModal={closeAddRecipeModal}
         refreshRecipeList={refreshRecipeList}
         closeAddRecipeModal={closeAddRecipeModal}
 

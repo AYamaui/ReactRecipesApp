@@ -51,9 +51,9 @@ const AddRecipeModal = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      toggle={props.closeModal
+      toggle={props.closeAddRecipeModal
     }>
-      <ModalHeader toggle={props.closeModal}> Recipe </ModalHeader>
+      <ModalHeader toggle={props.closeAddRecipeModal}> Recipe </ModalHeader>
       <RecipeForm
         name={""}
         description={""}
